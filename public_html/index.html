@@ -78,19 +78,31 @@
   </div>
 
 <ul id="selectStation"></ul>
+<ul id="timetable"></ul>
 
 <script>
   const ul = document.getElementById("selectStation")
-  ul.addEventListener("click", function (event) {
-    const btn = event.target.closest('button')
-    if ((!btn) || btn.innerText.includes('BRANCH') || (btn.innerText === '')) return
-    fetch('http://localhost:8081/getID?name=' + btn.innerText)
+  ul.addEventListener("click", async function (event) {
+    const btn = event.target.closest("button")
+    if ((!btn) || btn.innerText.includes("BRANCH") || (btn.innerText === '')) return
+    await fetch("http://localhost:8081/getID?name=" + btn.innerText)
       .then(res => {
         return res.text()
       })
       .then(payload => {
-        console.log(payload)
+        window.stopID = payload
       })
+    const stopID = window.stopID
+    const departures = await fetch(`http://localhost:8081/departures?station=${stopID}`)
+    const res = await departures.json()
+    console.log(res)
+    const selectStation = document.getElementById("selectStation")
+    const timetable = document.getElementById("timetable")
+    selectStation.innerHTML = ''
+    res.stopEvents.forEach(train => {
+      const li = document.createElement('li')
+      const ul =
+    })
   })
 </script>
 </body>
