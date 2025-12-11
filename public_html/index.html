@@ -40,36 +40,40 @@
   </style>
   <script src="index.js"></script>
   <script>
-    function grab(a) {
-      document.getElementById("selectStation").innerHTML = ''
-      for (let i = 0; i < a.length; i++) {
-        let li = document.createElement('li')
-        li.textContent = a[i]
-        document.getElementById("selectStation").appendChild(li)
-      }
+    function grab(input) {
+      const selectStation = document.getElementById("selectStation")
+      selectStation.innerHTML = ''
+      input.forEach(station => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.textContent = station
+        a.href = 'index.html'
+        li.appendChild(a)
+        selectStation.appendChild(li)
+      })
     }
   </script>
 </head>
 
 <body>
   <div class="topbar">
-    <button style="background-color:#168388;">M1</button>
+    <button onClick="grab(window.m1)" style="background-color:#168388;">M1</button>
     <a style="border: none;"></a>
-    <button style="background-color:#f99d1c;color: #aaaaaa;">T1</button>
-    <button style="background-color:#0098cd;">T2</button>
-    <button style="background-color:#f37021;">T3</button>
-    <button style="background-color:#005aa3;">T4</button>
-    <button style="background-color:#c4258f;">T5</button>
-    <button style="background-color:#7d3f21;">T6</button>
-    <button style="background-color:#6f818e;">T7</button>
-    <button style="background-color:#00954c;">T8</button>
-    <button style="background-color:#d11f2f;">T9</button>
+    <button onClick="grab(window.t1)" style="background-color:#f99d1c;color: #aaaaaa;">T1</button>
+    <button onClick="grab(window.t2)" style="background-color:#0098cd;">T2</button>
+    <button onClick="grab(window.t3)" style="background-color:#f37021;">T3</button>
+    <button onClick="grab(window.t4)" style="background-color:#005aa3;">T4</button>
+    <button onClick="grab(window.t5)" style="background-color:#c4258f;">T5</button>
+    <button onClick="grab(window.t6)" style="background-color:#7d3f21;">T6</button>
+    <button onClick="grab(window.t7)" style="background-color:#6f818e;">T7</button>
+    <button onClick="grab(window.t8)" style="background-color:#00954c;">T8</button>
+    <button onClick="grab(window.t9)" style="background-color:#d11f2f;">T9</button>
     <a style="border: none;"></a>
-    <button style="background-color:#f99d1c;color:#aaaaaa;">BMT</button>
+    <button onClick="grab(window.bmt)" style="background-color:#f99d1c;color:#aaaaaa;">BMT</button>
     <button onClick="grab(window.ccn)" style="background-color:#d11f2f;">CCN</button>
-    <button style="background-color:#833134;">HUN</button>
-    <button style="background-color:#005aa3;">SCO</button>
-    <button style="background-color:#008846;">SHL</button>
+    <button onClick="grab(window.hun)" style="background-color:#833134;">HUN</button>
+    <button onClick="grab(window.sco)" style="background-color:#005aa3;">SCO</button>
+    <button onClick="grab(window.shl)" style="background-color:#008846;">SHL</button>
   </div>
 
 <ul id="selectStation"></ul>
