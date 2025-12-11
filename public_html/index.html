@@ -26,7 +26,7 @@
       padding: 5px 3px;
       border: 4px solid orange;
     }
-    .topbar a, button {
+    .topbar a, .topbar button {
       font-family: sans-serif;
       text-decoration: none;
       font-weight: bold;
@@ -45,10 +45,11 @@
       selectStation.innerHTML = ''
       input.forEach(station => {
         const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.textContent = station
-        a.href = 'index.html'
-        li.appendChild(a)
+        const button = document.createElement('button');
+        button.textContent = station
+
+        button.href = 'localhost:8081/api?queryStation=' + encodeURIComponent(station)
+        li.appendChild(button)
         selectStation.appendChild(li)
       })
     }
@@ -78,7 +79,20 @@
 
 <ul id="selectStation"></ul>
 
-
+<script>
+  const ul = document.getElementById("selectStation")
+  ul.addEventListener("click", function (event) {
+    const btn = event.target.closest('button')
+    if ((!btn) || btn.innerText.includes('BRANCH') || (btn.innerText === '')) return
+    fetch('http://localhost:8081/getID?name=' + btn.innerText)
+      .then(res => {
+        return res.text()
+      })
+      .then(payload => {
+        console.log(payload)
+      })
+  })
+</script>
 </body>
 
 </html>
