@@ -20,15 +20,61 @@
 
   <link rel="manifest" href="../site.webmanifest">
   <meta name="theme-color" content="#fafafa">
+  <style>
+    .topbar {
+      background-color: #2a3760;
+      padding: 5px 3px;
+      border: 4px solid orange;
+    }
+    .topbar a, button {
+      font-family: sans-serif;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 10px 15px;
+      display: inline-block;
+      white-space-collapse: discard;
+      color: #eeeeee;
+      border-radius: 7px;
+      border: 2px solid #aaaaaa;
+    }
+  </style>
+  <script src="index.js"></script>
+  <script>
+    function grab(a) {
+      document.getElementById("selectStation").innerHTML = ''
+      for (let i = 0; i < a.length; i++) {
+        let li = document.createElement('li')
+        li.textContent = a[i]
+        document.getElementById("selectStation").appendChild(li)
+      }
+    }
+  </script>
 </head>
 
 <body>
+  <div class="topbar">
+    <button style="background-color:#168388;">M1</button>
+    <a style="border: none;"></a>
+    <button style="background-color:#f99d1c;color: #aaaaaa;">T1</button>
+    <button style="background-color:#0098cd;">T2</button>
+    <button style="background-color:#f37021;">T3</button>
+    <button style="background-color:#005aa3;">T4</button>
+    <button style="background-color:#c4258f;">T5</button>
+    <button style="background-color:#7d3f21;">T6</button>
+    <button style="background-color:#6f818e;">T7</button>
+    <button style="background-color:#00954c;">T8</button>
+    <button style="background-color:#d11f2f;">T9</button>
+    <a style="border: none;"></a>
+    <button style="background-color:#f99d1c;color:#aaaaaa;">BMT</button>
+    <button onClick="grab(window.ccn)" style="background-color:#d11f2f;">CCN</button>
+    <button style="background-color:#833134;">HUN</button>
+    <button style="background-color:#005aa3;">SCO</button>
+    <button style="background-color:#008846;">SHL</button>
+  </div>
 
-  <!-- Add your site or application content here -->
-  <p>Hello world! This is HTML5 Boilerplate.</p>
-  <script>
-    console.log("hello world!!!!!!");
-  </script>
+<ul id="selectStation"></ul>
+
+
 </body>
 
 </html>
