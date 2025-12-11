@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
+  <title>TrainsDB</title>
   <link rel="stylesheet" href="css/style.css">
   <meta name="description" content="">
 
@@ -13,11 +13,6 @@
   <meta property="og:url" content="">
   <meta property="og:image" content="">
   <meta property="og:image:alt" content="">
-
-  <link rel="icon" href="favicon.ico" sizes="any">
-  <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon.png">
-
   <link rel="manifest" href="../site.webmanifest">
   <meta name="theme-color" content="#fafafa">
   <style>
@@ -39,16 +34,17 @@
     }
   </style>
   <script src="index.js"></script>
+  <script src="luxon.js"></script>
   <script>
     function grab(input) {
       const selectStation = document.getElementById("selectStation")
+      const relevantStation = document.getElementById("relevantStation")
       selectStation.innerHTML = ''
+      relevantStation.innerText = ''
       input.forEach(station => {
         const li = document.createElement('li');
         const button = document.createElement('button');
         button.textContent = station
-
-        button.href = 'localhost:8081/api?queryStation=' + encodeURIComponent(station)
         li.appendChild(button)
         selectStation.appendChild(li)
       })
@@ -57,6 +53,7 @@
 </head>
 
 <body>
+  <h1>Select a train line and station to see departures</h1>
   <div class="topbar">
     <button onClick="grab(window.m1)" style="background-color:#168388;">M1</button>
     <a style="border: none;"></a>
@@ -76,11 +73,12 @@
     <button onClick="grab(window.sco)" style="background-color:#005aa3;">SCO</button>
     <button onClick="grab(window.shl)" style="background-color:#008846;">SHL</button>
   </div>
-
+<h1 id="relevantStation"></h1>
 <ul id="selectStation"></ul>
 <ul id="timetable"></ul>
 
 <script>
+  var DateTime = luxon.DateTime
   const ul = document.getElementById("selectStation")
   ul.addEventListener("click", async function (event) {
     const btn = event.target.closest("button")
@@ -98,10 +96,27 @@
     console.log(res)
     const selectStation = document.getElementById("selectStation")
     const timetable = document.getElementById("timetable")
+    const relevantStation = document.getElementById("relevantStation")
+    relevantStation.innerText = btn.innerText
     selectStation.innerHTML = ''
     res.stopEvents.forEach(train => {
       const li = document.createElement('li')
-      const ul =
+      const h2 = document.createElement('h2')
+      const ul = document.createElement('ul')
+      const time = document.createElement('li')
+      if (train.isRealtimeControlled) {
+        time.innerText = DateTime.fromISO(train.departureTimeEstimated).setZone('Australia/Sydney').toRelative({ style: "short"})
+      } else {
+        time.innerText = DateTime.fromISO(train.departureTimePlanned).setZone('Australia/Sydney').toRelative({ style: "short"})
+      }
+      h2.textContent = `${train.transportation.disassembledName} ${train.transportation.description}`
+      li.appendChild(h2)
+      ul.appendChild(time)
+      li.appendChild(ul)
+      selectStation.appendChild(li)
+      console.log(li.textContent)
+
+
     })
   })
 </script>
